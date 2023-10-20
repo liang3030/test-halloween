@@ -18,15 +18,13 @@ function Profile() {
 
   const { disconnect } = useDisconnect();
 
-  const {
-    chains,
-    error: switchError,
-    isLoading: switchLoading,
-    pendingChainId,
-    switchNetwork,
-  } = useSwitchNetwork({ chainId: 0x2105 });
+  const getHistory = async () => {
+    const fetchRes = await fetch(`/history/${address}`, { method: 'GET' });
+    const res = await fetchRes.json();
+    console.log(res);
+  };
 
-  const switchAndAdd = async (e) => {
+  const switchAndAdd = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -77,17 +75,13 @@ function Profile() {
         {/* TODO: if not support switching network */}
         <button onClick={switchAndAdd}>SwitchChain</button>
         <br />
-        {/* TODO: add chain */}
+        {/* TODO: check nft */}
         <button
           onClick={async (_) => {
-            if (switchNetwork) {
-              await switchNetwork();
-            } else {
-              console.log('not support');
-            }
+            getHistory();
           }}
         >
-          Test button
+          {'has nft'}
         </button>
       </div>
     );
